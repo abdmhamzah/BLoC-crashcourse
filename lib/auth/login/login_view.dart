@@ -72,8 +72,8 @@ class LoginView extends StatelessWidget {
             borderSide: BorderSide(color: Colors.red),
             borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
           ),
-          // filled: true,
-          fillColor: Colors.grey.shade300,
+          filled: true,
+          fillColor: Colors.blue.shade100,
         ),
         // * tahapannya:
         // * read dari login bloc
@@ -105,6 +105,8 @@ class LoginView extends StatelessWidget {
             borderSide: BorderSide(color: Colors.red),
             borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
           ),
+          filled: true,
+          fillColor: Colors.blue.shade100,
         ),
         onChanged: (value) => {
           context.read<LoginBloc>().add(LoginPasswordChanged(value)),
