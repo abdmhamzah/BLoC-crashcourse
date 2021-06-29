@@ -9,12 +9,10 @@ class MovieItemModel {
     _page = parsedJson['page'];
     _totalResults = parsedJson['tota;_result'];
     _totalPages = parsedJson['totalPages'];
-    List<_Result> temp = [];
     for (int i = 0; i < parsedJson['results'].length; i++) {
       _Result result = _Result(parsedJson['results'][i]);
-      temp.add(result);
+      _results.add(result);
     }
-    _results = temp;
   }
 
   int get page => _page;
@@ -49,9 +47,7 @@ class _Result {
     _posterPath = result['poster_path'];
     _originalLanguage = result['original_language'];
     _originalTitle = result['original_title'];
-    for (int i = 0; i < result['genre_ids'].length; i++) {
-      _genreIds.add(result['genre_ids'][i]);
-    }
+    _genreIds = convertToListInt(result['genre_ids']);
     _backdropPath = result['backdrop_path'];
     _adult = result['adult'];
     _overview = result['overview'];
@@ -72,4 +68,12 @@ class _Result {
   bool get video => _video;
   int get id => _id;
   int get voteCount => _voteCount;
+
+  static List<int> convertToListInt(List<dynamic> list) {
+    try {
+      return list.map((item) => (item.toInt())).toList();
+    } catch (e) {
+      return [];
+    }
+  }
 }
