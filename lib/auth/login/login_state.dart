@@ -6,6 +6,9 @@ class LoginState {
   final String password;
   final FormSubmissionStatus formStatus;
 
+  bool get isValidUsername => username.length > 4;
+  bool get isValidPassword => password.length > 6;
+
   LoginState({
     this.username = InitialLoginState.initialUsername,
     this.password = InitialLoginState.initialPassword,

@@ -1,6 +1,6 @@
-import 'dart:js';
-
 import 'package:BLoC_crashcourse/auth/auth_repository.dart';
+import 'package:BLoC_crashcourse/auth/form_submission_status.dart';
+import 'package:BLoC_crashcourse/auth/login/constants.dart';
 import 'package:BLoC_crashcourse/auth/login/login_bloc.dart';
 import 'package:BLoC_crashcourse/auth/login/login_event.dart';
 import 'package:BLoC_crashcourse/auth/login/login_state.dart';
@@ -56,28 +56,41 @@ class LoginView extends StatelessWidget {
         onChanged: (value) => {
           context.read<LoginBloc>().add(LoginUsernameChanged(value)),
         },
-        // TODO: buat validasi username di sini
-        validator: (value) => null,
+        validator: (value) =>
+            state.isValidUsername ? null : ErrorMessage.minimumUsernameLength,
       );
     });
   }
 
   Widget _passwordField() {
-    return TextFormField(
-      obscureText: true,
-      decoration: InputDecoration(
-        icon: Icon(Icons.security),
-        hintText: "Password",
-      ),
-      // TODO: buat validasi password di sini
-      validator: (value) => null,
-    );
+    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+      return TextFormField(
+        obscureText: true,
+        decoration: InputDecoration(
+          icon: Icon(Icons.security),
+          hintText: "Password",
+        ),
+        onChanged: (value) => {
+          context.read<LoginBloc>().add(LoginPasswordChanged(value)),
+        },
+        validator: (value) =>
+            state.isValidPassword ? null : ErrorMessage.minimumPasswordLength,
+      );
+    });
   }
 
   Widget _loginButton() {
-    return ElevatedButton(
-      onPressed: () {},
-      child: Text("Login"),
-    );
+    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+      return state.formStatus is FormSubmitting
+          ? CircularProgressIndicator()
+          : ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  context.read<LoginBloc>().add(LoginSubmitted());
+                }
+              },
+              child: Text("Login"),
+            );
+    });
   }
 }
