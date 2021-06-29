@@ -27,17 +27,25 @@ class LoginView extends StatelessWidget {
   }
 
   Widget _loginForm() {
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _usernameField(),
-            _passwordField(),
-            _loginButton(),
-          ],
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        final formStatus = state.formStatus;
+        if (formStatus is SubmissionFailed) {
+          _showSnackBar(context, formStatus.exception.toString());
+        }
+      },
+      child: Form(
+        key: _formKey,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _usernameField(),
+              _passwordField(),
+              _loginButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -92,5 +100,10 @@ class LoginView extends StatelessWidget {
               child: Text("Login"),
             );
     });
+  }
+
+  void _showSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
