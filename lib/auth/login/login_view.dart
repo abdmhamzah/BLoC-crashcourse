@@ -37,12 +37,16 @@ class LoginView extends StatelessWidget {
       child: Form(
         key: _formKey,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40),
+          padding: EdgeInsets.symmetric(
+            horizontal: DefaultStyling.paddingHorizontal,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _usernameField(),
+              SizedBox(height: DefaultStyling.paddingVertical),
               _passwordField(),
+              SizedBox(height: DefaultStyling.paddingVertical),
               _loginButton(),
             ],
           ),
@@ -55,8 +59,21 @@ class LoginView extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       return TextFormField(
         decoration: InputDecoration(
-          icon: Icon(Icons.person),
+          prefixIcon: Icon(Icons.person),
           hintText: "Username",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue),
+            borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+            borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
+          ),
+          // filled: true,
+          fillColor: Colors.grey.shade300,
         ),
         // * tahapannya:
         // * read dari login bloc
@@ -75,8 +92,19 @@ class LoginView extends StatelessWidget {
       return TextFormField(
         obscureText: true,
         decoration: InputDecoration(
-          icon: Icon(Icons.security),
+          prefixIcon: Icon(Icons.lock),
           hintText: "Password",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue),
+            borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+            borderRadius: BorderRadius.circular(DefaultStyling.borderRadius),
+          ),
         ),
         onChanged: (value) => {
           context.read<LoginBloc>().add(LoginPasswordChanged(value)),
