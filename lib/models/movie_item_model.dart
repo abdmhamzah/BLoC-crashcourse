@@ -44,7 +44,7 @@ class _Result {
     _posterPath = result['poster_path'];
     _originalLanguage = result['original_language'];
     _originalTitle = result['original_title'];
-    _genreIds = result.map((x) => x);
+    _genreIds = result['genre_ids'].map((x) => x);
     _backdropPath = result['backdrop_path'];
     _adult = result['adult'];
     _overview = result['overview'];
