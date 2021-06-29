@@ -2,14 +2,19 @@ class MovieItemModel {
   int _page;
   int _totalResults;
   int _totalPages;
-  List<_Result> _results;
+  List<_Result> _results = [];
 
   MovieItemModel.fromJson(Map<String, dynamic> parsedJson) {
     print(parsedJson['results'].length);
     _page = parsedJson['page'];
     _totalResults = parsedJson['tota;_result'];
     _totalPages = parsedJson['totalPages'];
-    _results = List<_Result>.from(parsedJson['results'].map((x) => x));
+    List<_Result> temp = [];
+    for (int i = 0; i < parsedJson['results'].length; i++) {
+      _Result result = _Result(parsedJson['results'][i]);
+      temp.add(result);
+    }
+    _results = temp;
   }
 
   int get page => _page;
@@ -28,7 +33,7 @@ class _Result {
   String _posterPath;
   String _originalLanguage;
   String _originalTitle;
-  List<int> _genreIds;
+  List<int> _genreIds = [];
   String _backdropPath;
   bool _adult;
   String _overview;
@@ -44,7 +49,9 @@ class _Result {
     _posterPath = result['poster_path'];
     _originalLanguage = result['original_language'];
     _originalTitle = result['original_title'];
-    _genreIds = result['genre_ids'].map((x) => x);
+    for (int i = 0; i < result['genre_ids'].length; i++) {
+      _genreIds.add(result['genre_ids'][i]);
+    }
     _backdropPath = result['backdrop_path'];
     _adult = result['adult'];
     _overview = result['overview'];
